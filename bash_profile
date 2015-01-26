@@ -320,7 +320,7 @@ function eneboo-iconos() {
 }
 
 function gitstatus {
-    REPOS=(~/Documents/git/desarrollos ~/Documents/git/eneboo-core ~/Documents/git/eneboo-tools ~/Documents/git/eneboo-features ~Documents/git/eneboo-modules ~/Documents/git/shared-modules ~/Documents/git/shared-features)
+    REPOS=(~/Documents/git/desarrollos ~/Documents/git/eneboo-core ~/Documents/git/eneboo-tools ~/Documents/git/eneboo-features ~/Documents/git/eneboo-modules ~/Documents/git/shared-modules ~/Documents/git/shared-features)
 
     for R in "${REPOS[@]}"; do
         echo "Comprobando repo $R."
@@ -332,7 +332,7 @@ function gitstatus {
 }
 
 function gitpull {
-    REPOS=(/Users/sbellver/Documents/git/desarrollos /Users/sbellver/Documents/git/eneboo-core /Users/sbellver/Documents/git/eneboo-tools /Users/sbellver/Documents/git/eneboo-features /Users/sbellver/Documents/git/eneboo-modules /Users/sbellver/Documents/git/shared-modules /Users/sbellver/Documents/git/shared-features)
+    REPOS=( ~/Documents/git/desarrollos ~/Documents/git/eneboo-core ~/Documents/git/eneboo-tools ~/Documents/git/eneboo-features ~/Documents/git/eneboo-modules ~/Documents/git/shared-modules ~/Documents/git/shared-features)
 
     for R in "${REPOS[@]}"; do
         echo "Actualizando repo $R."
@@ -343,7 +343,21 @@ function gitpull {
     done
 }
 
-# 11. Rsync 3.1.1
+# SINCRONIZACIÓN DE FICHEROS
+
 alias sshrsync="/usr/local/bin/rsync -e 'ssh -c arcfour' -vzP -aNHAXx --fileflags --protect-decmpfs --force-change --rsync-path=/usr/local/bin/rsync --stats -i"
 
-alias nrsync="/usr/local/bin/rsync -avz --progress --stats --human-readable"
+alias nrsync="/usr/local/bin/rsync -az --info=progress2 --stats --human-readable"
+
+# TRATAMIENTO DE IMAGENES
+
+# Auto rota las imagenes y renombra en función de la fecha de disparo.
+# Es necesario jhead http://www.sentex.net/~mwandel/jhead/
+# y sudo npm install --global jpegtran-bin
+
+function organizafotos {
+  find "$1" -name "*.jpg" -exec jhead -exonly -autorot -nf%Y-%m-%d_%H-%M-%S {} \;
+  find "$1" -name "*.JPG" -exec jhead -exonly -autorot -nf%Y-%m-%d_%H-%M-%S {} \;
+}
+
+alias buscatexto='grep -lri'
